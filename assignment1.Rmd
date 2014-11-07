@@ -105,12 +105,11 @@ fit.wk <- data.frame(fit.dt,weekend)
 
 #aggregate and panel plot of weekday vs weekend data
 avg.steps <-aggregate(steps ~ interval + weekend, data=fit.wk,mean)
-xyplot(steps ~ interval | weekend, type='l', data = avg.steps, main = 
-           "plot of avg daily steps vs time interval - weekend vs weekday ",
-       ylab = "avg daily steps", xlab = "time (minutes)")
+xyplot(steps ~ interval | weekend, type='l', layout = c(1,2), data = avg.steps, main = "plot of avg daily steps vs time (5 minute sample) interval - 
+weekday vs weekend ", ylab = "avg daily steps", xlab = "time (minutes)")
 ```
     
 ## Conclusion
-The data are similar, but the weekend shows a large surge around noon that is not seen on weekdays, but is reflected on the earlier aggregate plots.
+The data are similar, but the weekend shows a silghtly larger surge around noon and less more walking during the rest of the day on weekdays. Walkers likely relax a bit more on weekends.
 
 

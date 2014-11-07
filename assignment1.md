@@ -35,7 +35,15 @@ For this part of the assignment, you can ignore the missing values in the datase
 ```r
 fit.rmvna <- na.omit(fit.df)
 attach(fit.rmvna)
+```
 
+```
+## The following objects are masked from fit.df:
+## 
+##     date, interval, steps
+```
+
+```r
 mean(steps)
 ```
 
@@ -100,7 +108,15 @@ Impute missing values
 
 ```r
 detach(fit.rmvna); attach(fit.df)
+```
 
+```
+## The following objects are masked from fit.df (pos = 4):
+## 
+##     date, interval, steps
+```
+
+```r
 incomplete.cases <- dim(fit.df[is.na(fit.df),])[1]
 print(paste('incomplete cases (NA) =',incomplete.cases))
 ```
@@ -193,14 +209,13 @@ fit.wk <- data.frame(fit.dt,weekend)
 
 #aggregate and panel plot of weekday vs weekend data
 avg.steps <-aggregate(steps ~ interval + weekend, data=fit.wk,mean)
-xyplot(steps ~ interval | weekend, type='l', data = avg.steps, main = 
-           "plot of avg daily steps vs time interval - weekend vs weekday ",
-       ylab = "avg daily steps", xlab = "time (minutes)")
+xyplot(steps ~ interval | weekend, type='l', layout = c(1,2), data = avg.steps, main = "plot of avg daily steps vs time (5 minute sample) interval - 
+weekday vs weekend ", ylab = "avg daily steps", xlab = "time (minutes)")
 ```
 
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
     
 ## Conclusion
-The data are similar, but the weekend shows a large surge around noon that is not seen on weekdays, but is reflected on the earlier aggregate plots.
+The data are similar, but the weekend shows a silghtly larger surge around noon and less more walking during the rest of the day on weekdays. Walkers likely relax a bit more on weekends.
 
 
