@@ -38,7 +38,11 @@ attach(fit.rmvna)
 ```
 
 ```
-## The following objects are masked from fit.df:
+## The following objects are masked from fit.df (pos = 3):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.df (pos = 5):
 ## 
 ##     date, interval, steps
 ```
@@ -111,7 +115,11 @@ detach(fit.rmvna); attach(fit.df)
 ```
 
 ```
-## The following objects are masked from fit.df (pos = 4):
+## The following objects are masked from fit.df (pos = 3):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.df (pos = 5):
 ## 
 ##     date, interval, steps
 ```

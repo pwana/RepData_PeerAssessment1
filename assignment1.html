@@ -231,7 +231,11 @@ Calculate and report the mean and median total number of steps taken per day
 attach(fit.rmvna)
 </code></pre>
 
-<pre><code>## The following objects are masked from fit.df:
+<pre><code>## The following objects are masked from fit.df (pos = 3):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.df (pos = 5):
 ## 
 ##     date, interval, steps
 </code></pre>
@@ -293,7 +297,11 @@ round(max(avg.steps),2),&#39;  is interval = &#39;, as.numeric(interval[which(av
 <pre><code class="r">detach(fit.rmvna); attach(fit.df)
 </code></pre>
 
-<pre><code>## The following objects are masked from fit.df (pos = 4):
+<pre><code>## The following objects are masked from fit.df (pos = 3):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.df (pos = 5):
 ## 
 ##     date, interval, steps
 </code></pre>
