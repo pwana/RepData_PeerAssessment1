@@ -31,12 +31,16 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 
 ```{r simulatedata, echo=TRUE}
+library(ggplot2)
 fit.rmvna <- na.omit(fit.df)
+fit.rmvna$date <- as.Date(fit.rmvna$date)
 attach(fit.rmvna)
+# total number of steps taken each day
+tot.steps.day <- tapply(steps,date,sum)
 
-mean(steps)
-median(steps)
-hist(steps, main = 'histogram of daily steps')
+mean(tot.steps.day)
+median(tot.steps.day)
+qplot(tot.steps.day, binwidth=(max(tot.steps.day)-min(tot.steps.day))/30, fill='red')
 summary(fit.df)
 ```
 
@@ -48,7 +52,7 @@ What is the average daily activity pattern?
 
 ```{r, echo=TRUE}
 avg.steps <- tapply(steps,interval,mean)
-plot(avg.steps ~ unique(interval),type='l',main='avg. number of daily steps vs. time of day',ylab='avg daily steps', xlab='time (minutes)')
+ qplot(unique(interval),avg.steps,geom=c('line'),main='avg number of daily steps vs. time of day',ylab='avg daily steps',xlab='time (minutes)')
 print(paste('5 minute interval that contains the max average steps ==',
 round(max(avg.steps),2),'  is interval = ', as.numeric(interval[which(avg.steps==max(avg.steps))]), "note that is about 835/60=14 hours or ~ 2PM"))
 ```
@@ -75,16 +79,19 @@ impute.df <- impute.df[,-4] # clean up by removing extra impute col
 
 summary(impute.df) # note no more NA values with imputed set.
 
-mean(impute.df$steps)
-median(impute.df$steps)
-hist(impute.df$steps, main = 'histogram of imputed daily steps')
+attach(impute.df)
 
+tot.steps.day <- tapply(steps,date,sum)
+
+mean(tot.steps.day)
+median(tot.steps.day)
+qplot(tot.steps.day, binwidth=(max(tot.steps.day)-min(tot.steps.day))/30, fill='red', main= 'histogram of imputed daily steps')
 
 ```
 
 4) Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps
 
-The averages of the imputed values did not change. That was expected since we are using averages of data to impute back in. Median is the same, as there are so many 0 values, that they dominate the data set in either case.  However, quantiles were affected.
+The averages of the imputed values did not change. That was expected since we are using averages of data to impute back in. Median and mean are closer in imputed cases.
 
 
 5) Are there differences in activity patterns between weekdays and weekends?

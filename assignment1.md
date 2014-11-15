@@ -33,38 +33,55 @@ For this part of the assignment, you can ignore the missing values in the datase
 
 
 ```r
+library(ggplot2)
 fit.rmvna <- na.omit(fit.df)
+fit.rmvna$date <- as.Date(fit.rmvna$date)
 attach(fit.rmvna)
 ```
 
 ```
-## The following objects are masked from fit.df (pos = 3):
+## The following objects are masked from impute.df (pos = 4):
 ## 
 ##     date, interval, steps
 ## 
-## The following objects are masked from fit.df (pos = 5):
+## The following objects are masked from fit.df:
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 6):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 7):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.rmvna (pos = 9):
 ## 
 ##     date, interval, steps
 ```
 
 ```r
-mean(steps)
+# total number of steps taken each day
+tot.steps.day <- tapply(steps,date,sum)
+
+mean(tot.steps.day)
 ```
 
 ```
-## [1] 37.3826
-```
-
-```r
-median(steps)
-```
-
-```
-## [1] 0
+## [1] 10766.19
 ```
 
 ```r
-hist(steps, main = 'histogram of daily steps')
+median(tot.steps.day)
+```
+
+```
+## [1] 10765
+```
+
+```r
+qplot(tot.steps.day, binwidth=(max(tot.steps.day)-min(tot.steps.day))/30, fill='red')
 ```
 
 ![plot of chunk simulatedata](figure/simulatedata-1.png) 
@@ -93,7 +110,7 @@ What is the average daily activity pattern?
 
 ```r
 avg.steps <- tapply(steps,interval,mean)
-plot(avg.steps ~ unique(interval),type='l',main='avg. number of daily steps vs. time of day',ylab='avg daily steps', xlab='time (minutes)')
+ qplot(unique(interval),avg.steps,geom=c('line'),main='avg number of daily steps vs. time of day',ylab='avg daily steps',xlab='time (minutes)')
 ```
 
 ![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
@@ -115,11 +132,23 @@ detach(fit.rmvna); attach(fit.df)
 ```
 
 ```
-## The following objects are masked from fit.df (pos = 3):
+## The following objects are masked from impute.df (pos = 4):
 ## 
 ##     date, interval, steps
 ## 
 ## The following objects are masked from fit.df (pos = 5):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 6):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 7):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.rmvna:
 ## 
 ##     date, interval, steps
 ```
@@ -172,30 +201,62 @@ summary(impute.df) # note no more NA values with imputed set.
 ```
 
 ```r
-mean(impute.df$steps)
+attach(impute.df)
 ```
 
 ```
-## [1] 37.3826
+## The following objects are masked from fit.df (pos = 3):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 5):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.df (pos = 6):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 7):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from impute.df (pos = 8):
+## 
+##     date, interval, steps
+## 
+## The following objects are masked from fit.rmvna:
+## 
+##     date, interval, steps
 ```
 
 ```r
-median(impute.df$steps)
+tot.steps.day <- tapply(steps,date,sum)
+
+mean(tot.steps.day)
 ```
 
 ```
-## [1] 0
+## [1] 10766.19
 ```
 
 ```r
-hist(impute.df$steps, main = 'histogram of imputed daily steps')
+median(tot.steps.day)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
+qplot(tot.steps.day, binwidth=(max(tot.steps.day)-min(tot.steps.day))/30, fill='red', main= 'histogram of imputed daily steps')
 ```
 
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 4) Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps
 
-The averages of the imputed values did not change. That was expected since we are using averages of data to impute back in. Median is the same, as there are so many 0 values, that they dominate the data set in either case.  However, quantiles were affected.
+The averages of the imputed values did not change. That was expected since we are using averages of data to impute back in. Median and mean are closer in imputed cases.
 
 
 5) Are there differences in activity patterns between weekdays and weekends?
